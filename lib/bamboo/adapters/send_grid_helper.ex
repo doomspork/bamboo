@@ -34,6 +34,15 @@ defmodule Bamboo.SendGridHelper do
     end
   end
 
+  def with_custom_arg(email, arg_name, arg_value) do
+    custom_args =
+      email.private
+      |> Map.get(:custom_args, %{})
+      |> Map.put(arg_name, to_string(arg_value))
+
+    Email.put_private(email, :custom_args, custom_args)
+  end
+
   @doc """
   Add a tag to the list of substitutions in the SendGrid template.
 
